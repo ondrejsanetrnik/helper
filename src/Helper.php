@@ -1,5 +1,7 @@
 <?php
 
+namespace Ondrejsanetrnik\Helper;
+
 class Helper
 {
     /**
