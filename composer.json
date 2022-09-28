@@ -1,0 +1,19 @@
+{
+    "name": "ondrejsanetrnik/helper",
+    "description": "Provides additional universally used methods",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ondrej Sanetrnik",
+            "email": "ondrejsanetrnik@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Ondrejsanetrnik\\Helper\\": "src/"
+        }
+    }
+}
