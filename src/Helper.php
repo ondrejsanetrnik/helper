@@ -2,6 +2,8 @@
 
 namespace Ondrejsanetrnik\Helper;
 
+use function Vantoozz\ProxyScraper\proxyScraper;
+
 class Helper
 {
     /**
@@ -96,5 +98,23 @@ class Helper
         }
 
         return substr($slug, 0, 245);
+    }
+
+    public static function getThroughProxy(string $url): string
+    {
+        error_reporting(0);
+        foreach (proxyScraper()->get() as $proxy) {
+            $aContext = array(
+                'https' => array(
+                    'proxy'           => 'tcp://' . $proxy,
+                    'request_fulluri' => true,
+                    'timeout'         => 240,
+                ),
+            );
+            $cxContext = stream_context_create($aContext);
+            $contents = @file_get_contents($url, False, $cxContext);
+            sleep(3);
+            if ($contents) return $contents;
+        }
     }
 }
