@@ -102,19 +102,22 @@ class Helper
 
     public static function getThroughProxy(string $url): string
     {
-        error_reporting(0);
-        foreach (proxyScraper()->get() as $proxy) {
-            $aContext = array(
-                'https' => array(
-                    'proxy'           => 'tcp://' . $proxy,
-                    'request_fulluri' => true,
-                    'timeout'         => 240,
-                ),
-            );
-            $cxContext = stream_context_create($aContext);
-            $contents = @file_get_contents($url, False, $cxContext);
-            sleep(3);
-            if ($contents) return $contents;
-        }
+        $username = 'geonode_PFNYg7Go0N-autoReplace-True';
+        $password = '992275cc-2b47-4efc-ba22-e1a4d66c66d5';
+        $GEONODE_PORT = 9000;
+        $GEONODE_DNS = 'premium-residential.geonode.com';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_PROXYPORT, $GEONODE_PORT);
+        curl_setopt($ch, CURLOPT_PROXYTYPE, 'HTTP');
+        curl_setopt($ch, CURLOPT_PROXY, $GEONODE_DNS);
+        curl_setopt($ch, CURLOPT_PROXYUSERPWD, $username . ':' . $password);
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+        return $data;
     }
 }
