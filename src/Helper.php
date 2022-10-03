@@ -102,8 +102,8 @@ class Helper
 
     public static function getThroughProxy(string $url): string
     {
-        $username = 'geonode_PFNYg7Go0N-autoReplace-True';
-        $password = '992275cc-2b47-4efc-ba22-e1a4d66c66d5';
+        $username = config('helper.GEONODE_USERNAME');
+        $password = config('helper.GEONODE_PASSWORD');
         $GEONODE_PORT = 9000;
         $GEONODE_DNS = 'premium-residential.geonode.com';
 
