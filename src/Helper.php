@@ -93,7 +93,7 @@ class Helper
         $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
         $slug = str_replace('---', '-', $slug); // Removes redundant dashes.
         $slug = str_replace('--', '-', $slug);  // Removes redundant dashes.
-        $slug = trim('-', $slug);               // Removes redundant dashes.
+        $slug = trim($slug, '-');               // Removes redundant dashes.
         $slug = strtolower($slug);
 
         if ($slug == '') $slug = substr(md5(microtime()), rand(0, 26), 5);
