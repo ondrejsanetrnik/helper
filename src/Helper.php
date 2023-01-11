@@ -2,6 +2,8 @@
 
 namespace Ondrejsanetrnik\Helper;
 
+use Illuminate\Support\Facades\Cache;
+
 use function Vantoozz\ProxyScraper\proxyScraper;
 
 class Helper
@@ -90,18 +92,21 @@ class Helper
         $string = self::translitRussian($string);
         $slug = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
         $slug = str_replace('---', '-', $slug); // Removes redundant dashes.
-        $slug = str_replace('--', '-', $slug); // Removes redundant dashes.
+        $slug = str_replace('--', '-', $slug);  // Removes redundant dashes.
+        $slug = trim('-', $slug);               // Removes redundant dashes.
         $slug = strtolower($slug);
 
-        if ($slug == '') {
-            $slug = substr(md5(microtime()), rand(0, 26), 5);
-        }
+        if ($slug == '') $slug = substr(md5(microtime()), rand(0, 26), 5);
 
         return substr($slug, 0, 245);
     }
 
     public static function getThroughProxy(string $url): string
     {
+        sleep(1);
+
+        $agent = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)';
+
         $username = config('helper.GEONODE_USERNAME');
         $password = config('helper.GEONODE_PASSWORD');
         $GEONODE_PORT = 9000;
@@ -109,6 +114,7 @@ class Helper
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_USERAGENT, $agent);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_PROXYPORT, $GEONODE_PORT);
@@ -117,6 +123,13 @@ class Helper
         curl_setopt($ch, CURLOPT_PROXYUSERPWD, $username . ':' . $password);
         $data = curl_exec($ch);
         curl_close($ch);
+
+        if ($data === false) {
+            Cache::increment('proxy_failures');
+            abort(500, 'Geonode proxy returned false');
+        }
+
+        Cache::forever('proxy_failures', 0);
 
         return $data;
     }
