@@ -12,9 +12,9 @@ class Helper
      * Transliterates czech characters to ASCII
      *
      * @param string $string
-     * 
+     *
      * @return string
-     * 
+     *
      */
     static function translit(string $string): string
     {
@@ -56,23 +56,153 @@ class Helper
      * Transliterates russian characters to ASCII
      *
      * @param string $string
-     * 
+     *
      * @return string
-     * 
+     *
      */
     static function translitRussian(string $string): string
     {
         $cyr = [
-            'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п',
-            'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я',
-            'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П',
-            'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я', 'ľ', 'ô', 'ß'
+            'а',
+            'б',
+            'в',
+            'г',
+            'д',
+            'е',
+            'ё',
+            'ж',
+            'з',
+            'и',
+            'й',
+            'к',
+            'л',
+            'м',
+            'н',
+            'о',
+            'п',
+            'р',
+            'с',
+            'т',
+            'у',
+            'ф',
+            'х',
+            'ц',
+            'ч',
+            'ш',
+            'щ',
+            'ъ',
+            'ы',
+            'ь',
+            'э',
+            'ю',
+            'я',
+            'А',
+            'Б',
+            'В',
+            'Г',
+            'Д',
+            'Е',
+            'Ё',
+            'Ж',
+            'З',
+            'И',
+            'Й',
+            'К',
+            'Л',
+            'М',
+            'Н',
+            'О',
+            'П',
+            'Р',
+            'С',
+            'Т',
+            'У',
+            'Ф',
+            'Х',
+            'Ц',
+            'Ч',
+            'Ш',
+            'Щ',
+            'Ъ',
+            'Ы',
+            'Ь',
+            'Э',
+            'Ю',
+            'Я',
+            'ľ',
+            'ô',
+            'ß',
         ];
         $lat = [
-            'a', 'b', 'v', 'g', 'd', 'e', 'io', 'zh', 'z', 'i', 'y', 'k', 'l', 'm', 'n', 'o', 'p',
-            'r', 's', 't', 'u', 'f', 'h', 'ts', 'ch', 'sh', 'sht', 'a', 'i', 'y', 'e', 'yu', 'ya',
-            'A', 'B', 'V', 'G', 'D', 'E', 'Io', 'Zh', 'Z', 'I', 'Y', 'K', 'L', 'M', 'N', 'O', 'P',
-            'R', 'S', 'T', 'U', 'F', 'H', 'Ts', 'Ch', 'Sh', 'Sht', 'A', 'I', 'Y', 'e', 'Yu', 'Ya', 'l', 'o', 's'
+            'a',
+            'b',
+            'v',
+            'g',
+            'd',
+            'e',
+            'io',
+            'zh',
+            'z',
+            'i',
+            'y',
+            'k',
+            'l',
+            'm',
+            'n',
+            'o',
+            'p',
+            'r',
+            's',
+            't',
+            'u',
+            'f',
+            'h',
+            'ts',
+            'ch',
+            'sh',
+            'sht',
+            'a',
+            'i',
+            'y',
+            'e',
+            'yu',
+            'ya',
+            'A',
+            'B',
+            'V',
+            'G',
+            'D',
+            'E',
+            'Io',
+            'Zh',
+            'Z',
+            'I',
+            'Y',
+            'K',
+            'L',
+            'M',
+            'N',
+            'O',
+            'P',
+            'R',
+            'S',
+            'T',
+            'U',
+            'F',
+            'H',
+            'Ts',
+            'Ch',
+            'Sh',
+            'Sht',
+            'A',
+            'I',
+            'Y',
+            'e',
+            'Yu',
+            'Ya',
+            'l',
+            'o',
+            's',
         ];
         return str_replace($cyr, $lat, $string);
     }
@@ -81,9 +211,9 @@ class Helper
      * Converts the string to a slug
      *
      * @param string $string
-     * 
+     *
      * @return string
-     * 
+     *
      */
     static function convertToSlug(string $string): string
     {
@@ -109,17 +239,17 @@ class Helper
 
         $username = config('helper.GEONODE_USERNAME');
         $password = config('helper.GEONODE_PASSWORD');
-        $GEONODE_PORT = 9000;
-        $GEONODE_DNS = 'premium-residential.geonode.com';
+        $port = config('helper.GEONODE_PORT', 9000);
+        $dns = config('helper.GEONODE_DNS', 'rotating-residential.geonode.com');
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_USERAGENT, $agent);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_PROXYPORT, $GEONODE_PORT);
+        curl_setopt($ch, CURLOPT_PROXYPORT, $port);
         curl_setopt($ch, CURLOPT_PROXYTYPE, 'HTTP');
-        curl_setopt($ch, CURLOPT_PROXY, $GEONODE_DNS);
+        curl_setopt($ch, CURLOPT_PROXY, $dns);
         curl_setopt($ch, CURLOPT_PROXYUSERPWD, $username . ':' . $password);
         $data = curl_exec($ch);
         curl_close($ch);
