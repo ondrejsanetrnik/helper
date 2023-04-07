@@ -207,6 +207,22 @@ class Helper
         return str_replace($cyr, $lat, $string);
     }
 
+
+    /**
+     * @param float $float1
+     * @param float $float2
+     * @return float
+     */
+    static function getSpread(float $float1, float $float2): float
+    {
+        if ($float1 > $float2) {
+            $difference = $float1 / $float2;
+        } else {
+            $difference = $float2 / $float1;
+        }
+        return round(abs($difference - 1), 2);
+    }
+
     /**
      * Converts the string to a slug
      *
