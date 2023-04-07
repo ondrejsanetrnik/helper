@@ -227,7 +227,6 @@ class Helper
      * Converts the string to a slug
      *
      * @param string $string
-     *
      * @return string
      *
      */
