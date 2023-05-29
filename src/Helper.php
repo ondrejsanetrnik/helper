@@ -2,6 +2,7 @@
 
 namespace Ondrejsanetrnik\Helper;
 
+use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
 
 use function Vantoozz\ProxyScraper\proxyScraper;
@@ -277,5 +278,10 @@ class Helper
         Cache::forever('proxy_failures', 0);
 
         return $data;
+    }
+
+    public static function czkToEur(float $amount): float
+    {
+        return round($amount * Setting::get('eur_rate'), 2);
     }
 }
