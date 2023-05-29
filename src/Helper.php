@@ -282,6 +282,6 @@ class Helper
 
     public static function czkToEur(float $amount): float
     {
-        return round($amount * Setting::get('eur_rate'), 2);
+        return round($amount / Setting::get('eur_rate'), 2);
     }
 }
